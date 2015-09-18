@@ -1,0 +1,15 @@
+[mqtt]
+client_name = Raven
+username = pub
+password = password
+hostname = localhost
+port = 8883
+ca_cert = /etc/ssl/local/CAcert.pem
+
+[serial]
+device = /dev/ttyUSB0
+speed = 115200
+watchdog = 24
+
+[logging]
+level = INFO
