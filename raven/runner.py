@@ -1,5 +1,6 @@
 import raven.collector
 import raven.mqtt
+import raven.watchdog
 import logging
 import time
 import argparse
@@ -20,16 +21,28 @@ class Runner(object):
 		self.config.read(config_path)
 		self.collector = raven.collector.Collector(config_path, read_callback=self.recv_message)
 		self.mqtt = raven.mqtt.MosquittoClient(config_path)
+		self.watchdog = raven.watchdog.Watchdog(self.config.getint('serial', 'watchdog'), self._timeout)
 
 	def start(self):
 		self.mqtt.start()
 		self.collector.start()
+		self.watchdog.start()
 
 	def stop(self):
+		try:
+			self.watchdog.stop()
+		except RuntimeError:
+			kLog.warning("Watchdog already stopped")
 		self.collector.stop()
 		self.mqtt.stop()
 
+	def _timeout(self):
+		kLog.warning("Watchdog timeout")
+		self.stop()
+		raise SystemExit("Watchdog timeout")
+
 	def recv_message(self, message):
+		self.watchdog.reset()
 		if message.name not in kTopicMap:
 			logging.info(message)
 			return

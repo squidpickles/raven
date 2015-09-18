@@ -20,6 +20,7 @@ class SerialClient(object, asyncore.dispatcher):
 		self.send_buffer = b''
 		self.send_lock = threading.RLock()
 		self.looper = threading.Thread(target=asyncore.loop, name='Asyncore loop', kwargs={'timeout': kLoopTimeout})
+		self.looper.daemon = True
 
 	def start(self):
 		self.looper.start()
