@@ -41,5 +41,6 @@ class MosquittoClient(object):
 
 	def publish(self, topic, timestamp, value):
 		payload = json.dumps({'ts': timestamp, 'val': value})
+		topic = self.name + topic
 		kLog.debug("Publishing {} to {}".format(payload, topic))
 		self.client.publish(topic, payload, qos=1)
