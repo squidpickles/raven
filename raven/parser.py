@@ -32,6 +32,8 @@ class RavenMessageParser(object):
 			text = child.text
 			if text.startswith('0x'):
 				text = int(text, 16)
+				if (text & 0x80000000):
+				    text -= 0x100000000
 			if child.tag == 'TimeStamp':
 				text += kEpochSeconds
 			msg[child.tag] = text
