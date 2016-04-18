@@ -7,8 +7,8 @@ import argparse
 from ConfigParser import RawConfigParser
 
 kTopicMap = {
-	'InstantaneousDemand': 'home/energy/demand',
-	'CurrentSummationDelivered': 'home/energy/summation',
+	'InstantaneousDemand': '/energy/demand',
+	'CurrentSummationDelivered': '/energy/summation',
 }
 
 kAsyncLoopTimeout = 5

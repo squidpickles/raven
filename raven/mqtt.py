@@ -9,7 +9,15 @@ class MosquittoClient(object):
 	def __init__(self, config_path):
 		config = RawConfigParser()
 		config.read(config_path)
-		client = mqtt.Client(config.get('mqtt', 'client_name'), True)
+		protocol = mqtt.MQTTv31
+		if (config.has_option('mqtt', 'use311') and
+		    config.getboolean('mqtt', 'use311')):
+			kLog.debug('311')
+			protocol = mqtt.MQTTv311
+		self.name = config.get('mqtt', 'client_name')
+		client = mqtt.Client(client_id=self.name,
+				     clean_session=True,
+				     protocol=protocol)
 		client.username_pw_set(config.get('mqtt', 'username'), config.get('mqtt', 'password'))
 		client.tls_set(config.get('mqtt', 'ca_cert'))
 		if config.get('mqtt','hostname') in ('localhost', '127.0.0.1', '::1'):
@@ -33,5 +41,6 @@ class MosquittoClient(object):
 
 	def publish(self, topic, timestamp, value):
 		payload = json.dumps({'ts': timestamp, 'val': value})
+		topic = self.name + topic
 		kLog.debug("Publishing {} to {}".format(payload, topic))
 		self.client.publish(topic, payload, qos=1)
