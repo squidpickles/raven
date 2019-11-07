@@ -1,4 +1,4 @@
-from __future__ import division
+
 import xml.etree.ElementTree as ET
 
 kEpochSeconds = 946684800 # Number of seconds between UNIX epoch (1970-01-01) and device epoch (2000-01-01)
@@ -23,7 +23,7 @@ class RavenMessage(dict):
 		if tag in self and 'Divisor' in self and 'Multiplier' in self:
 			return self[tag] * self['Multiplier'] / self['Divisor']
 
-class RavenMessageParser(object):
+class RavenMessageParser():
 	@classmethod
 	def parse(cls, message):
 		root = ET.fromstring(message)

@@ -21,7 +21,7 @@ class PyTest(TestCommand):
 
 setup(
 		name = 'raven',
-		version = '0.1',
+		version = '0.2',
 		description = 'Python library for communicating with a RAVEn device',
 		long_description = 'Python library for communicating with a Rainforest Automation RAVEn RFA-Z106 device',
 		maintainer = 'Kevin Rauwolf',
@@ -37,8 +37,6 @@ setup(
 			'Intended Audience :: Developers',
 			'License :: OSI Approved :: BSD License',
 			'Natural Language :: English',
-			'Programming Language :: Python :: 2',
-			'Programming Language :: Python :: 2.7',
 			'Programming Language :: Python :: 3',
 			'Topic :: Home Automation',
 			'Topic :: Software Development :: Libraries',

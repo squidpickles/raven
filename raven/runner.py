@@ -4,7 +4,7 @@ import raven.watchdog
 import logging
 import time
 import argparse
-from ConfigParser import RawConfigParser
+from configparser import RawConfigParser
 
 kTopicMap = {
 	'InstantaneousDemand': '/energy/demand',
@@ -15,7 +15,7 @@ kAsyncLoopTimeout = 5
 
 kLog = logging.getLogger(__name__)
 
-class Runner(object):
+class Runner():
 	def __init__(self, config_path):
 		self.config = RawConfigParser()
 		self.config.read(config_path)

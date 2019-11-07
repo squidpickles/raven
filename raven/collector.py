@@ -3,7 +3,7 @@ import asyncore
 import logging
 import threading
 import raven.parser
-from ConfigParser import RawConfigParser
+from configparser import RawConfigParser
 
 kRecvBufferSize = 8192
 kLoopTimeout = 5
@@ -13,7 +13,7 @@ serial.Serial.send = serial.Serial.write
 
 kLog = logging.getLogger(__name__)
 
-class SerialClient(object, asyncore.dispatcher):
+class SerialClient(asyncore.dispatcher):
 	def __init__(self, device='/dev/ttyUSB0', speed=115200):
 		asyncore.dispatcher.__init__(self)
 		self.create_socket(device, speed)

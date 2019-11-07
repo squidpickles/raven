@@ -3,7 +3,7 @@ import signal
 class TimeoutError(Exception):
 	pass
 
-class Watchdog(object):
+class Watchdog():
 	def __init__(self, timeout, handler=None):
 		self.timeout = timeout
 		self.started = False

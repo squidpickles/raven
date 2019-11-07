@@ -1,11 +1,11 @@
 import paho.mqtt.client as mqtt
 import json
 import logging
-from ConfigParser import RawConfigParser
+from configparser import RawConfigParser
 
 kLog = logging.getLogger(__name__)
 
-class MosquittoClient(object):
+class MosquittoClient():
 	def __init__(self, config_path):
 		config = RawConfigParser()
 		config.read(config_path)
@@ -27,7 +27,7 @@ class MosquittoClient(object):
 
 	def start(self):
 		hostname = self.config.get('mqtt', 'hostname')
-		port = self.config.get('mqtt', 'port')
+		port = int(self.config.get('mqtt', 'port'))
 		kLog.debug("Connecting to MQTT server at {}:{}".format(hostname, port))
 		self.client.connect(hostname, port)
 		self.client.loop_start()
