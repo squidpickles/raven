@@ -1,3 +1,4 @@
 .eggs
 server.ini
 *.egg-info
+.coverage

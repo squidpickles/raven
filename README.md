@@ -10,5 +10,5 @@ It requires the `paho-mqtt` Python module.
 To run:
 
 ```
-python2 runner.py server.ini
+python runner.py server.ini
 ```

@@ -1,5 +1,5 @@
 [mqtt]
-client_name = Raven
+client_name = home
 username = pub
 password = password
 hostname = localhost

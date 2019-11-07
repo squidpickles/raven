@@ -29,7 +29,7 @@ setup(
 		license = 'BSD License',
 		packages = ['raven', ],
 		install_requires = ['paho-mqtt', ],
-		tests_require = ['pytest', ],
+		tests_require = ['pytest', 'pytest-coverage'],
 		keywords = ['RAVEn', 'RFA-Z106', ],
 		cmdclass = {'test': PyTest, },
 		classifiers = [
