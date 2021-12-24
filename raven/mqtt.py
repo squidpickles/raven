@@ -1,7 +1,8 @@
-import paho.mqtt.client as mqtt
 import json
 import logging
 from configparser import RawConfigParser
+
+import paho.mqtt.client as mqtt
 
 kLog = logging.getLogger(__name__)
 
@@ -16,9 +17,7 @@ class MosquittoClient:
             protocol = mqtt.MQTTv311
         self.name = config.get("mqtt", "client_name")
         client = mqtt.Client(client_id=self.name, clean_session=True, protocol=protocol)
-        client.username_pw_set(
-            config.get("mqtt", "username"), config.get("mqtt", "password")
-        )
+        client.username_pw_set(config.get("mqtt", "username"), config.get("mqtt", "password"))
         client.tls_set(config.get("mqtt", "ca_cert"))
         if config.get("mqtt", "hostname") in ("localhost", "127.0.0.1", "::1"):
             client.tls_insecure_set(True)
@@ -28,7 +27,7 @@ class MosquittoClient:
     def start(self):
         hostname = self.config.get("mqtt", "hostname")
         port = int(self.config.get("mqtt", "port"))
-        kLog.debug("Connecting to MQTT server at {}:{}".format(hostname, port))
+        kLog.debug("Connecting to MQTT server at %s:%s", hostname, port)
         self.client.connect(hostname, port)
         self.client.loop_start()
         kLog.info("Connected to MQTT server")
@@ -42,5 +41,5 @@ class MosquittoClient:
     def publish(self, topic, timestamp, value):
         payload = json.dumps({"ts": timestamp, "val": value})
         topic = self.name + topic
-        kLog.debug("Publishing {} to {}".format(payload, topic))
+        kLog.debug("Publishing %s to %s", payload, topic)
         self.client.publish(topic, payload, qos=1)
