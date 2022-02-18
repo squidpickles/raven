@@ -7,9 +7,11 @@ import argparse
 from configparser import RawConfigParser
 
 kTopicMap = {
-    "InstantaneousDemand": "/energy/demand",
-    "CurrentSummationDelivered": "/energy/summation",
+    ("InstantaneousDemand", "Demand"): "/energy/demand",
+    ("CurrentSummationDelivered", "SummationDelivered"): "/energy/delivered",
+    ("CurrentSummationDelivered", "SummationReceived"): "/energy/received",
 }
+kTopicName = { k[0] for k in kTopicMap.keys() }
 
 kAsyncLoopTimeout = 5
 
@@ -48,17 +50,16 @@ class Runner:
 
     def recv_message(self, message):
         self.watchdog.reset()
-        if message.name not in kTopicMap:
+        if message.name not in kTopicName:
             logging.info(message)
             return
         if "TimeStamp" not in message:
             logging.error(message)
             return
-        topic = kTopicMap[message.name]
         timestamp = message["TimeStamp"]
-        value = message.value()
-        kLog.info(value)
-        self.mqtt.publish(topic, timestamp, value)
+        for name, value in message.values():
+            topic = kTopicMap[(message.name, name)]
+            self.mqtt.publish(topic, timestamp, value)
 
 
 if __name__ == "__main__":

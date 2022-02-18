@@ -3,8 +3,8 @@ import xml.etree.ElementTree as ET
 kEpochSeconds = 946684800  # Number of seconds between UNIX epoch (1970-01-01) and device epoch (2000-01-01)
 
 kValueMap = {
-    "InstantaneousDemand": "Demand",
-    "CurrentSummationDelivered": "SummationDelivered",
+    "InstantaneousDemand": ( "Demand", ),
+    "CurrentSummationDelivered": ( "SummationDelivered", "SummationReceived" ),
 }
 
 
@@ -16,8 +16,9 @@ class RavenMessage(dict):
     def __str__(self):
         return self.name + ": " + dict.__str__(self)
 
-    def value(self):
-        return self.calculate_number(kValueMap[self.name])
+    def values(self):
+        for number in kValueMap[self.name]:
+            yield (number, self.calculate_number(number))
 
     def calculate_number(self, tag):
         if tag in self and "Divisor" in self and "Multiplier" in self:
